@@ -1,18 +1,21 @@
 package com.github.library_app_boot.config;
 
-import org.springframework.security.config.annotation.SecurityBuilder;
-import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
+import com.github.library_app_boot.security.AuthProviderImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @EnableWebSecurity
-public class SecurityConfig implements WebSecurityConfigurer {
-    @Override
-    public void init(SecurityBuilder builder) throws Exception {
-
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    private final AuthProviderImpl authProvider;
+    @Autowired
+    public SecurityConfig(AuthProviderImpl authProvider) {
+        this.authProvider = authProvider;
     }
 
     @Override
-    public void configure(SecurityBuilder builder) throws Exception {
-
+    protected void configure(AuthenticationManagerBuilder auth) {
+        auth.authenticationProvider(authProvider);
     }
 }

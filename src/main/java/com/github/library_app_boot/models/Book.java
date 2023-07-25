@@ -1,9 +1,8 @@
 package com.github.library_app_boot.models;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.NotEmpty;
-
+import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 

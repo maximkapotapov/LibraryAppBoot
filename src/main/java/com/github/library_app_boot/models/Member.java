@@ -1,16 +1,16 @@
 package com.github.library_app_boot.models;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
-@Table(name = "user")
-public class User {
+@Table(name = "member")
+public class Member {
 
     @Id
-    @Column(name = "user_id")
+    @Column(name = "member_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int userId;
+    private int memberId;
 
     @Column(name = "username")
     @NotEmpty(message = "Username should not be empty!")
@@ -20,19 +20,19 @@ public class User {
     @NotEmpty(message = "Password should not be empty!")
     private String password;
 
-    public User() {}
+    public Member() {}
 
-    public User(String username, String password) {
+    public Member(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
-    public int getUserId() {
-        return userId;
+    public int getMemberId() {
+        return memberId;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setMemberId(int memberId) {
+        this.memberId = memberId;
     }
 
     public String getUsername() {
@@ -53,8 +53,8 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "userId=" + userId +
+        return "Member{" +
+                "memberId=" + memberId +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 '}';

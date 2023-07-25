@@ -3,7 +3,6 @@ package com.github.library_app_boot.services;
 import com.github.library_app_boot.models.Book;
 import com.github.library_app_boot.models.Person;
 import com.github.library_app_boot.repositories.BookRepository;
-import jakarta.persistence.EntityManager;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -12,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import javax.persistence.EntityManager;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;

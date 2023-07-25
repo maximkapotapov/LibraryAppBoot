@@ -1,15 +1,17 @@
 package com.github.library_app_boot.security;
 
-import com.github.library_app_boot.models.User;
+import com.github.library_app_boot.models.Member;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 
-public class UserDetails implements org.springframework.security.core.userdetails.UserDetails {
-    private final User user;
+public class MemberDetails implements UserDetails {
+    private final Member member;
 
-    public UserDetails(User user) {
-        this.user = user;
+    public MemberDetails(Member member) {
+        this.member = member;
     }
 
     @Override
@@ -19,12 +21,12 @@ public class UserDetails implements org.springframework.security.core.userdetail
 
     @Override
     public String getPassword() {
-        return this.user.getPassword();
+        return this.member.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return this.user.getUsername();
+        return this.member.getUsername();
     }
 
     @Override
@@ -45,5 +47,9 @@ public class UserDetails implements org.springframework.security.core.userdetail
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public Member getMember() {
+        return this.member;
     }
 }

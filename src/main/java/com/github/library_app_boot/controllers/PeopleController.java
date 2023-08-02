@@ -5,6 +5,7 @@ import com.github.library_app_boot.models.Person;
 import com.github.library_app_boot.services.PeopleService;
 import com.github.library_app_boot.util.PersonValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -73,6 +74,7 @@ public class PeopleController {
         peopleService.update(id, person);
         return "redirect:/people";
     }
+
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") int id) {

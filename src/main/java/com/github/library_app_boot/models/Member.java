@@ -20,6 +20,9 @@ public class Member {
     @NotEmpty(message = "Password should not be empty!")
     private String password;
 
+    @Column(name = "role")
+    private String role;
+
     public Member() {}
 
     public Member(String username, String password) {
@@ -49,6 +52,14 @@ public class Member {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     @Override

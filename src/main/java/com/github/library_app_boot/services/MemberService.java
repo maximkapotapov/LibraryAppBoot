@@ -29,6 +29,7 @@ public class MemberService {
     @Transactional
     public void saveUser(Member member) {
         member.setPassword(passwordEncoder.encode(member.getPassword()));
+        member.setRole("ROLE_USER");
         memberRepository.save(member);
     }
 }

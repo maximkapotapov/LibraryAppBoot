@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,6 +60,7 @@ public class BooksService {
         return book.getOwner();
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Transactional
     public void deletePersonBook(int id) {
         Session session = entityManager.unwrap(Session.class);
@@ -66,6 +68,7 @@ public class BooksService {
         book.setOwner(null);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Transactional
     public void updatePersonBook(int id, Person person) {
         Session session = entityManager.unwrap(Session.class);
@@ -74,6 +77,7 @@ public class BooksService {
         book.setTakenAt(new Date());
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Transactional
     public void delete(int id) {
         bookRepository.deleteById(id);

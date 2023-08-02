@@ -6,6 +6,7 @@ import com.github.library_app_boot.models.Person;
 import com.github.library_app_boot.repositories.PersonRepository;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,6 +51,9 @@ public class PeopleService {
         personRepository.save(updatedPerson);
     }
 
+
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Transactional
     public void delete(int id) {
         personRepository.deleteById(id);

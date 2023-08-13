@@ -12,6 +12,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
@@ -19,7 +22,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,20 +35,22 @@ public class AuthController {
 
     private final JWTUtil jwtUtil;
 
+    private final AuthenticationManager authenticationManager;
+
     @Autowired
-    public AuthController(MemberValidator memberValidator, MemberService memberService, ModelMapper modelMapper, JWTUtil jwtUtil) {
+    public AuthController(MemberValidator memberValidator, MemberService memberService, ModelMapper modelMapper, JWTUtil jwtUtil, AuthenticationManager authenticationManager) {
         this.memberValidator = memberValidator;
         this.memberService = memberService;
         this.modelMapper = modelMapper;
         this.jwtUtil = jwtUtil;
+        this.authenticationManager = authenticationManager;
     }
 
     @GetMapping("/show-user-info")
     public String showMemberInfo() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
-        System.out.println(memberDetails.getMember());
-        return "redirect:/people";
+        return memberDetails.getUsername();
     }
 
     @GetMapping("/login")
@@ -78,6 +82,22 @@ public class AuthController {
         memberService.saveUser(member);
 
         String token = jwtUtil.generateToken(member.getUsername());
+
+        return Map.of("jwt-token", token);
+    }
+
+    @PostMapping("/login")
+    public Map<String, String> performLogin(@RequestBody MemberDTO memberDTO) {
+        UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(memberDTO.getUsername(), memberDTO.getPassword());
+
+        try {
+            authenticationManager.authenticate(authenticationToken);
+        } catch (BadCredentialsException e) {
+            return Map.of("Error!", "Wrong Credentials!");
+        }
+
+        String token = jwtUtil.generateToken(memberDTO.getUsername());
 
         return Map.of("jwt-token", token);
     }
